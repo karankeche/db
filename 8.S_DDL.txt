@@ -1,0 +1,45 @@
+Design and Develop SQL DDL statements which demonstrate the use of SQL objects such as Table, View,
+1. Create tables Emp and dept with constraints(Primary key, Foreign key etc)
+2. create views on any two tables using conditions.(with types of views)
+3. Insert, Update and delete values from views
+3. Create index called EmployeeId for the deptment table. Entries should be in ascending order by department
+id and then by employee id within each department.
+4. Create sequence on Employee id.
+5. Delete index..
+ANS :=
+1
+CREATE TABLE Dept ( dept_id INT PRIMARY KEY, dept_name VARCHAR(50) NOT NULL ); 
+CREATE TABLE Emp ( emp_id INT PRIMARY KEY AUTO_INCREMENT, emp_name VARCHAR(50) NOT NULL, 
+dept_id INT, CONSTRAINT fk_dept FOREIGN KEY (dept_id) REFERENCES Dept(dept_id) );
+2
+-- View showing all employees in a specific department (e.g., dept_id = 1)
+CREATE VIEW EmpView AS 
+SELECT emp_id, emp_name 
+FROM Emp 
+WHERE dept_id = 1;
+
+-- View joining `Emp` and `Dept` to show employee names along with department names, for example, for HR department
+CREATE VIEW EmpDeptView AS 
+SELECT e.emp_id, e.emp_name, d.dept_name 
+FROM Emp e 
+JOIN Dept d ON e.dept_id = d.dept_id 
+WHERE d.dept_name = 'HR';
+5
+-- Insert into the `Emp` table
+INSERT INTO Dept (dept_id, dept_name) VALUES (1, 'HR');
+INSERT INTO Emp (emp_name, dept_id) VALUES ('John', 1);
+
+-- Update in the `Emp` table
+UPDATE Emp SET emp_name = 'Alice' WHERE emp_id = 1;
+
+-- Delete from the `Emp` table
+DELETE FROM Emp WHERE emp_id = 1;
+6
+CREATE INDEX EmployeeId ON Emp (dept_id ASC, emp_id ASC);
+7
+ALTER TABLE Emp DROP FOREIGN KEY fk_dept;
+8
+DROP INDEX EmployeeId ON Emp;
+9
+ALTER TABLE Emp 
+ADD CONSTRAINT fk_dept FOREIGN KEY (dept_id) REFERENCES Dept(dept_id);ss
